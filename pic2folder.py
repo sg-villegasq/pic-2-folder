@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import mainloop, ttk
 
+from gallery import Gallery
+
 
 class Pic2Folder(tk.Tk):
     def __init__(self) -> None:
@@ -18,6 +20,7 @@ class Pic2Folder(tk.Tk):
         title.grid(column=1, row=1)
 
         # add gallery
+        Gallery(mainframe)
 
         # add folder/options section
 
