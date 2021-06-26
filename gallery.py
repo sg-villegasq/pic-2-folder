@@ -7,7 +7,7 @@ class Gallery(ttk.Frame):
         super().__init__(parent)
 
         mainframe = ttk.Frame(parent, padding='3 3 12 12')
-        mainframe.grid(column=1, row=1)
+        mainframe.grid(column=1, row=2)
 
         # place for the photos
         photos_frame = ttk.Frame(mainframe,
