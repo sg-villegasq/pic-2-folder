@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, filedialog
 from PIL import Image, ImageTk
 import os
 
@@ -26,9 +26,9 @@ class Gallery(ttk.Frame):
                                 rowspan=3,
                                 sticky=(tk.N, tk.E, tk.S, tk.W))
 
-        # * path of the folder where the images are located
-        self.imgs = self.list_images('./images/')
-        # open a photo
+        path = filedialog.askdirectory()
+        self.imgs = self.list_images(path)
+        # open the first photo
         self.current = 0
         self.open_image(self.imgs[self.current])
 
