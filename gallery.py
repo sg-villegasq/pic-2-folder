@@ -13,29 +13,19 @@ class Gallery(ttk.Frame):
         mainframe.grid(column=1, row=2)
 
         # canvas for the photos
-        photos_canvas = tk.Canvas(mainframe,
-                                  height=self.photo_area_length,
-                                  width=self.photo_area_length,
-                                  borderwidth=0)
-        photos_canvas.grid(column=2,
-                           row=1,
-                           rowspan=3,
-                           sticky=(tk.N, tk.E, tk.S, tk.W))
+        self.photos_canvas = tk.Canvas(mainframe,
+                                       height=self.photo_area_length,
+                                       width=self.photo_area_length,
+                                       borderwidth=0)
+        #    bg='dim gray')
+        self.photos_canvas.grid(column=2,
+                                row=1,
+                                rowspan=3,
+                                sticky=(tk.N, tk.E, tk.S, tk.W))
 
-        # TODO: maybe put this into a function?
         # open a photo
-        path = './images/bmth.jpg'
-        load = Image.open(path)
-        # resize the photo to fit in the canvas
-        new_size = self.resize_image(load.width, load.height)
-        load = load.resize(new_size, Image.ANTIALIAS)
-        render = ImageTk.PhotoImage(load)
-        # img = ttk.Label(photos_frame, image=render)
-        photos_canvas.image = render
-        photos_canvas.create_image(self.photo_area_length / 2,
-                                   self.photo_area_length / 2,
-                                   image=photos_canvas.image,
-                                   anchor='center')
+        path = './images/test.jpg'
+        self.open_image(path)
 
         # buttons
         prev_button = ttk.Button(mainframe, text='<<')
@@ -43,6 +33,28 @@ class Gallery(ttk.Frame):
 
         next_button = ttk.Button(mainframe, text='>>')
         next_button.grid(column=3, row=2, sticky=tk.W)
+
+    def open_image(self, path):
+        canvas_position = self.photo_area_length // 2
+        try:
+            load = Image.open(path)
+        except FileNotFoundError:
+            self.photos_canvas.configure(bg='dim gray')
+            self.photos_canvas.create_text(canvas_position,
+                                           canvas_position,
+                                           text='Photo not found!',
+                                           anchor=tk.CENTER)
+        else:
+            # resize the image to fit the canvas
+            new_dimensions = self.resize_image(load.width, load.height)
+            load = load.resize(new_dimensions, Image.ANTIALIAS)
+            render = ImageTk.PhotoImage(load)
+            # place the image inside the canvas
+            self.photos_canvas.image = render
+            self.photos_canvas.create_image(canvas_position,
+                                            canvas_position,
+                                            image=self.photos_canvas.image,
+                                            anchor=tk.CENTER)
 
     def resize_image(self, width, height):
         ratio = self.photo_area_length / max(width, height)
