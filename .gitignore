@@ -133,3 +133,6 @@ dmypy.json
 
 # vim settings
 .vim/
+
+# image folder
+images/
