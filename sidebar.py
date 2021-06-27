@@ -9,7 +9,7 @@ class Sidebar(ttk.Frame):
         self.mainframe = ttk.Frame(parent, padding='3 3 12 12')
         self.mainframe.grid(column=0, row=1, rowspan=3)
 
-        add_folder_button = ttk.Button(self.mainframe, text='add_folder')
+        add_folder_button = ttk.Button(self.mainframe, text='add folder')
         save_button = ttk.Button(self.mainframe, text='save')
         open_folder_button = ttk.Button(self.mainframe, text='open folder')
 
