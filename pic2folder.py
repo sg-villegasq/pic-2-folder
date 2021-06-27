@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import mainloop, ttk
 
 from gallery import Gallery
+from folders import Folders
 
 
 class Pic2Folder(tk.Tk):
@@ -23,5 +24,6 @@ class Pic2Folder(tk.Tk):
         Gallery(mainframe)
 
         # add folder/options section
+        Folders(mainframe)
 
         # add sidebar
