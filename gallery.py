@@ -1,10 +1,14 @@
 import tkinter as tk
 from tkinter import ttk
 from PIL import Image, ImageTk
+import os
 
 
 class Gallery(ttk.Frame):
     photo_area_length = 700
+    valid_filetypes = [
+        '.jpg', '.jpeg', '.gif', '.tiff', '.bmp', '.ppm', '.png'
+    ]
 
     def __init__(self, parent) -> None:
         super().__init__(parent)
@@ -17,22 +21,36 @@ class Gallery(ttk.Frame):
                                        height=self.photo_area_length,
                                        width=self.photo_area_length,
                                        borderwidth=0)
-        #    bg='dim gray')
         self.photos_canvas.grid(column=2,
                                 row=1,
                                 rowspan=3,
                                 sticky=(tk.N, tk.E, tk.S, tk.W))
 
+        # * path of the folder where the images are located
+        self.imgs = self.list_images('./images/')
         # open a photo
-        path = './images/test.jpg'
-        self.open_image(path)
+        self.current = 0
+        self.open_image(self.imgs[self.current])
 
         # buttons
-        prev_button = ttk.Button(mainframe, text='<<')
+        prev_button = ttk.Button(mainframe,
+                                 text='<<',
+                                 command=lambda: self.move(-1))
         prev_button.grid(column=1, row=2, sticky=tk.E)
 
-        next_button = ttk.Button(mainframe, text='>>')
+        next_button = ttk.Button(mainframe,
+                                 text='>>',
+                                 command=lambda: self.move(+1))
         next_button.grid(column=3, row=2, sticky=tk.W)
+
+    def list_images(self, path):
+        file_list = os.listdir(path)
+        images = [
+            os.path.join(path, f) for f in file_list
+            if os.path.splitext(f)[-1].lower() in self.valid_filetypes
+        ]
+
+        return images
 
     def open_image(self, path):
         canvas_position = self.photo_area_length // 2
@@ -61,3 +79,9 @@ class Gallery(ttk.Frame):
         new_sizes = (ratio * width, ratio * height)
 
         return tuple(map(int, new_sizes))
+
+    def move(self, delta):
+        self.current += delta
+        # start again when we reach the end
+        position = self.current % len(self.imgs)
+        self.open_image(self.imgs[position])
